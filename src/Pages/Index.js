@@ -2,6 +2,12 @@ import React from 'react';
 import './style.scss';
 import data from './data';
 
+/**
+ *
+ * @class Index
+ * @extends {React.Component}
+ * @author David Medina <djmedinapk@gmail.com>
+ */
 class Index extends React.Component {
 
   
@@ -11,6 +17,13 @@ class Index extends React.Component {
     })
   }
 
+
+  /**
+   * deleteTask - elimina una tarea de la lista de tareas
+   *
+   * @param {integer} id id de la tarea a ser eliminada
+   * @memberof Index
+   */
   deleteTask(id) {
     const { data } = this.state;
     const filtered = data.filter(function(card, index, arr){ return card.id !== id;});
@@ -18,7 +31,26 @@ class Index extends React.Component {
       data: filtered
     })
   }
+
+  /**
+   * addTask - agrega una nueva tarea
+   *
+   * @param {integer} id
+   * @memberof Index
+   */
+  addTask(id) {
+    //agregar Tarea
+  }
   
+  /**
+   * showTask - Muestra una tarea especifica
+   *
+   * @param {integer} id
+   * @memberof Index
+   */
+  showTask(id) {
+    //mostrar tarea
+  }
 
   render () {
     const { data } = this.state;
@@ -47,8 +79,8 @@ class Index extends React.Component {
                               {card.active ? 'Activa':'Finalizada'}
                             </h5>
                             {card.active ? 
-                              <a href="/#" role="button" class="button card__button">
-                                <span class="button__text">Agregar tiempo</span>
+                              <a href="/#" role="button" className="button card__button">
+                                <span className="button__text">Agregar tiempo</span>
                               </a>: null
                             }
                         </div>
@@ -79,13 +111,13 @@ class Index extends React.Component {
                                         <i className="fas fa-ellipsis-v"></i>
                                         <div className="card__dropdown-content">
                                             <div className="card__dropdown-item">
-                                                <button className="card__dropdown-item-button">
+                                                <button onClick={()=>{this.showTask(card.id); }} className="card__dropdown-item-button">
                                                     <i className="fas fa-eye card__dropdown-icon"></i> 
                                                     <span className="card__dropdown-text">Ver tarea</span>
                                                 </button>
                                             </div>
                                             <div className={card.active ? 'card__dropdown-item card__dropdown-item--disabled' : 'card__dropdown-item'}>
-                                              <button onClick={()=>{this.deleteTask(card.id)}} disabled={card.active} className={card.active ? 'card__dropdown-item-button' : 'card__dropdown-item-button card__dropdown-item-button--delete'}>
+                                              <button onClick={()=>{this.deleteTask(card.id); }} disabled={card.active} className={card.active ? 'card__dropdown-item-button' : 'card__dropdown-item-button card__dropdown-item-button--delete'}>
                                                   <i className="fas fa-trash card__dropdown-icon"></i>
                                                   <span className="card__dropdown-text">Borrar</span>
                                               </button>
@@ -102,7 +134,7 @@ class Index extends React.Component {
         </div>
         <div className="float-button">
             <div className="float-button__content">
-                <button className="button button--add">
+                <button onClick={()=> { this.addTask(); }} className="button button--add">
                     <i className="fas fa-plus"></i>
                 </button>
             </div>
