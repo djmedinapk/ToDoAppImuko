@@ -10,6 +10,9 @@ import data from './data';
  */
 class Index extends React.Component {
 
+  state = {
+    modalAdd : false
+  }
   
   componentWillMount() {
     this.setState({
@@ -33,13 +36,27 @@ class Index extends React.Component {
   }
 
   /**
+   * handleModalAdd - cambia el estado del modalAdd
+   *
+   * @memberof Index
+   */
+  handleModalAdd() {
+    const { modalAdd } = this.state;
+    this.setState({
+      modalAdd:!modalAdd
+    })
+  }
+
+  /**
    * addTask - agrega una nueva tarea
    *
    * @param {integer} id
    * @memberof Index
    */
-  addTask(id) {
-    //agregar Tarea
+  addTask(event) {
+    this.setState({
+      modalAdd: false
+    })
   }
   
   /**
@@ -53,90 +70,122 @@ class Index extends React.Component {
   }
 
   render () {
-    const { data } = this.state;
+    const { data, modalAdd } = this.state;
     return (
-      <div className="container">
-        <div className="header">
-            <div className="header__text">
-                <h3 className="header__title">To do list</h3>
-                <span className="header__subtitle">Viernes, 17 de Febrero</span>
-            </div>
-            <a href="/#" className="header__thumbnail">
-                <img src="./src/img/profile1.jpg" alt="" className="header__img"/>
-            </a>
-        </div>
-        <div className="content">
-            <div className="tasks">
-                <div className="tasks__title">
-                    <h4 className="tasks__title-text">Tareas</h4>
-                    <span className="tasks__subtitle">({data.length + ' asignadas'})</span>
-                </div>
-                <div className="cards">
-                   {data.map(card => 
-                    <div key={card.id} className="card">
-                       <div className={card.active ? 'card__state  card__state--active' : ' card__state card__state--finish' }>
-                            <h5 className="card__state-text">
-                              {card.active ? 'Activa':'Finalizada'}
-                            </h5>
-                            {card.active ? 
-                              <a href="/#" role="button" className="button card__button">
-                                <span className="button__text">Agregar tiempo</span>
-                              </a>: null
-                            }
-                        </div>
-                        <div className="divider"></div>
-                        <div className="card__content">
-                          <div className="card__info">
-                              <a href="/#" className="card__user">
-                                  <img src={'./src/img/' + card.image} alt="" className="card__profile-image"/>
-                                  <span className="card__username">{card.name}</span>
-                              </a>
-                              {card.timeLeft ? 
-                                <a href="/#" className="card__date">
-                                    <i className="far fa-clock card__timeleft-icon"></i>
-                                    <span className="card__timeleft">{'Tiempo restante: ' + card.timeLeft}</span>
-                                </a> 
-                                : null
+      <div>
+        <div className="container">
+          <div className="header">
+              <div className="header__text">
+                  <h3 className="header__title">To do list</h3>
+                  <span className="header__subtitle">Viernes, 17 de Febrero</span>
+              </div>
+              <a href="/#" className="header__thumbnail">
+                  <img src="./src/img/profile1.jpg" alt="" className="header__img"/>
+              </a>
+          </div>
+          <div className="content">
+              <div className="tasks">
+                  <div className="tasks__title">
+                      <h4 className="tasks__title-text">Tareas</h4>
+                      <span className="tasks__subtitle">({data.length + ' asignadas'})</span>
+                  </div>
+                  <div className="cards">
+                    {data.map(card => 
+                      <div key={card.id} className="card">
+                        <div className={card.active ? 'card__state  card__state--active' : ' card__state card__state--finish' }>
+                              <h5 className="card__state-text">
+                                {card.active ? 'Activa':'Finalizada'}
+                              </h5>
+                              {card.active ? 
+                                <a href="/#" role="button" className="button card__button">
+                                  <span className="button__text">Agregar tiempo</span>
+                                </a>: null
                               }
-                            </div>
-                            <div className="card__data">
-                                <div className="card__data-content">
-                                    <h5 className="card__data-title">{card.card.title}</h5>
-                                    <p className="card__data-description">
-                                      {card.card.description}
-                                    </p>
-                                </div>
-                                <div className="card__dropdown-menu">
-                                    <div className="card__dropdown-button">
-                                        <i className="fas fa-ellipsis-v"></i>
-                                        <div className="card__dropdown-content">
-                                            <div className="card__dropdown-item">
-                                                <button onClick={()=>{this.showTask(card.id); }} className="card__dropdown-item-button">
-                                                    <i className="fas fa-eye card__dropdown-icon"></i> 
-                                                    <span className="card__dropdown-text">Ver tarea</span>
+                          </div>
+                          <div className="divider"></div>
+                          <div className="card__content">
+                            <div className="card__info">
+                                <a href="/#" className="card__user">
+                                    <img src={'./src/img/' + card.image} alt="" className="card__profile-image"/>
+                                    <span className="card__username">{card.name}</span>
+                                </a>
+                                {card.timeLeft ? 
+                                  <a href="/#" className="card__date">
+                                      <i className="far fa-clock card__timeleft-icon"></i>
+                                      <span className="card__timeleft">{'Tiempo restante: ' + card.timeLeft}</span>
+                                  </a> 
+                                  : null
+                                }
+                              </div>
+                              <div className="card__data">
+                                  <div className="card__data-content">
+                                      <h5 className="card__data-title">{card.card.title}</h5>
+                                      <p className="card__data-description">
+                                        {card.card.description}
+                                      </p>
+                                  </div>
+                                  <div className="card__dropdown-menu">
+                                      <div className="card__dropdown-button">
+                                          <i className="fas fa-ellipsis-v"></i>
+                                          <div className="card__dropdown-content">
+                                              <div className="card__dropdown-item">
+                                                  <button onClick={()=>{this.showTask(card.id); }} className="card__dropdown-item-button">
+                                                      <i className="fas fa-eye card__dropdown-icon"></i> 
+                                                      <span className="card__dropdown-text">Ver tarea</span>
+                                                  </button>
+                                              </div>
+                                              <div className={card.active ? 'card__dropdown-item card__dropdown-item--disabled' : 'card__dropdown-item'}>
+                                                <button onClick={()=>{this.deleteTask(card.id); }} disabled={card.active} className={card.active ? 'card__dropdown-item-button' : 'card__dropdown-item-button card__dropdown-item-button--delete'}>
+                                                    <i className="fas fa-trash card__dropdown-icon"></i>
+                                                    <span className="card__dropdown-text">Borrar</span>
                                                 </button>
-                                            </div>
-                                            <div className={card.active ? 'card__dropdown-item card__dropdown-item--disabled' : 'card__dropdown-item'}>
-                                              <button onClick={()=>{this.deleteTask(card.id); }} disabled={card.active} className={card.active ? 'card__dropdown-item-button' : 'card__dropdown-item-button card__dropdown-item-button--delete'}>
-                                                  <i className="fas fa-trash card__dropdown-icon"></i>
-                                                  <span className="card__dropdown-text">Borrar</span>
-                                              </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                  )}
-                </div>
-            </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                    )}
+                  </div>
+              </div>
+          </div>
+          <div className="float-button">
+              <div className="float-button__content">
+                  <button onClick={()=> { this.handleModalAdd(); }} className="button button--add">
+                      <i className="fas fa-plus"></i>
+                  </button>
+              </div>
+          </div>
         </div>
-        <div className="float-button">
-            <div className="float-button__content">
-                <button onClick={()=> { this.addTask(); }} className="button button--add">
-                    <i className="fas fa-plus"></i>
-                </button>
+        <div class={modalAdd ? 'modal-add-task modal-add-task--show' : 'modal-add-task'}>
+            <div class="form">
+                <form onSubmit={(event)=>{ this.addTask(event); }}>
+                  <div class="form-group">
+                      <div class="form-group__label">Título</div>
+                      <input name="title" type="text" class="form-group__input"/>
+                      <div class="form-group__help">
+                          <span class="form-group__helptext"></span>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="form-group__label">Descripción</div>
+                      <textarea name="description" rows="2" type="text" class="form-group__input form-group__input--textarea"></textarea>
+                      <div class="form-group__help">
+                          <span class="form-group__helptext"></span>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="form-group__buttons">
+                          <button onClick={()=>{this.handleModalAdd(); }} class="button form-group__button form-group__button--cancel">
+                              <span class="button__text">Cancelar</span>
+                          </button>
+                          <button type="submit" class="button form-group__button">
+                              <span class="button__text">Agregar</span>
+                          </button>
+                      </div>
+                  </div>
+                </form>
             </div>
         </div>
       </div>
