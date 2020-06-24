@@ -1,68 +1,94 @@
 import React from 'react';
 import './style.scss';
+import data from './data';
 
 class Index extends React.Component {
 
+  
+  componentWillMount() {
+    this.setState({
+      data
+    })
+  }
+
+  deleteTask(id) {
+    const { data } = this.state;
+    const filtered = data.filter(function(card, index, arr){ return card.id !== id;});
+    this.setState({
+      data: filtered
+    })
+  }
+  
+
   render () {
+    const { data } = this.state;
     return (
-      <div class="container">
-        <div class="header">
-            <div class="header__text">
-                <h3 class="header__title">To do list</h3>
-                <span class="header__subtitle">Viernes, 17 de Febrero</span>
+      <div className="container">
+        <div className="header">
+            <div className="header__text">
+                <h3 className="header__title">To do list</h3>
+                <span className="header__subtitle">Viernes, 17 de Febrero</span>
             </div>
-            <a href="/#" class="header__thumbnail">
-                <img src="./src/img/profile1.jpg" alt="" class="header__img"/>
+            <a href="/#" className="header__thumbnail">
+                <img src="./src/img/profile1.jpg" alt="" className="header__img"/>
             </a>
         </div>
-        <div class="content">
-            <div class="tasks">
-                <div class="tasks__title">
-                    <h4 class="tasks__title-text">Tareas</h4>
-                    <span class="tasks__subtitle">(3 asignadas)</span>
+        <div className="content">
+            <div className="tasks">
+                <div className="tasks__title">
+                    <h4 className="tasks__title-text">Tareas</h4>
+                    <span className="tasks__subtitle">({data.length + ' asignadas'})</span>
                 </div>
-                <div class="cards">
-                    <div class="card">
-                        <div class="card__state card__state--active">
-                            <h5 class="card__state-text">Activa</h5>
-                            <a href="/#" role="button" class="button card__button">
+                <div className="cards">
+                   {data.map(card => 
+                    <div key={card.id} className="card">
+                       <div className={card.active ? 'card__state  card__state--active' : ' card__state card__state--finish' }>
+                            <h5 className="card__state-text">
+                              {card.active ? 'Activa':'Finalizada'}
+                            </h5>
+                            {card.active ? 
+                              <a href="/#" role="button" class="button card__button">
                                 <span class="button__text">Agregar tiempo</span>
-                            </a>
+                              </a>: null
+                            }
                         </div>
-                        <div class="divider"></div>
-                        <div class="card__content">
-                            <div class="card__info">
-                                <a href="/#" class="card__user">
-                                    <img src="./src/img/profile1.jpg" alt="" class="card__profile-image"/>
-                                    <span class="card__username">Juanita Pérez</span>
-                                </a>
-                                <a href="/#" class="card__date">
-                                    <i class="far fa-clock card__timeleft-icon"></i>
-                                    <span class="card__timeleft">Tiempo restante: 12hrs</span>
-                                </a>
+                        <div className="divider"></div>
+                        <div className="card__content">
+                          <div className="card__info">
+                              <a href="/#" className="card__user">
+                                  <img src={'./src/img/' + card.image} alt="" className="card__profile-image"/>
+                                  <span className="card__username">{card.name}</span>
+                              </a>
+                              {card.timeLeft ? 
+                                <a href="/#" className="card__date">
+                                    <i className="far fa-clock card__timeleft-icon"></i>
+                                    <span className="card__timeleft">{'Tiempo restante: ' + card.timeLeft}</span>
+                                </a> 
+                                : null
+                              }
                             </div>
-                            <div class="card__data">
-                                <div class="card__data-content">
-                                    <h5 class="card__data-title">Titulo de la tarea</h5>
-                                    <p class="card__data-description">
-                                            When you enter into any new area of science, you almost always find yourself with a baffling new language.
+                            <div className="card__data">
+                                <div className="card__data-content">
+                                    <h5 className="card__data-title">{card.card.title}</h5>
+                                    <p className="card__data-description">
+                                      {card.card.description}
                                     </p>
                                 </div>
-                                <div class="card__dropdown-menu">
-                                    <div class="card__dropdown-button">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                        <div class="card__dropdown-content">
-                                            <div class="card__dropdown-item">
-                                                    <button class="card__dropdown-item-button">
-                                                            <i class="fas fa-eye card__dropdown-icon"></i> 
-                                                            <span class="card__dropdown-text">Ver tarea</span>
-                                                    </button>
+                                <div className="card__dropdown-menu">
+                                    <div className="card__dropdown-button">
+                                        <i className="fas fa-ellipsis-v"></i>
+                                        <div className="card__dropdown-content">
+                                            <div className="card__dropdown-item">
+                                                <button className="card__dropdown-item-button">
+                                                    <i className="fas fa-eye card__dropdown-icon"></i> 
+                                                    <span className="card__dropdown-text">Ver tarea</span>
+                                                </button>
                                             </div>
-                                            <div class="card__dropdown-item card__dropdown-item--disabled">
-                                                    <button disabled class="card__dropdown-item-button card__dropdown-item-button--delete card__dropdown-item-button--disabled">
-                                                            <i class="fas fa-trash card__dropdown-icon"></i>
-                                                            <span class="card__dropdown-text">Borrar</span>
-                                                    </button>
+                                            <div className={card.active ? 'card__dropdown-item card__dropdown-item--disabled' : 'card__dropdown-item'}>
+                                              <button onClick={()=>{this.deleteTask(card.id)}} disabled={card.active} className={card.active ? 'card__dropdown-item-button' : 'card__dropdown-item-button card__dropdown-item-button--delete'}>
+                                                  <i className="fas fa-trash card__dropdown-icon"></i>
+                                                  <span className="card__dropdown-text">Borrar</span>
+                                              </button>
                                             </div>
                                         </div>
                                     </div>
@@ -70,143 +96,14 @@ class Index extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                            <div class="card__state card__state--finish">
-                                <h5 class="card__state-text">Finalizada</h5>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="card__content">
-                                <div class="card__info">
-                                    <a href="/#" class="card__user">
-                                        <img src="./src/img/profile1.jpg" alt="" class="card__profile-image"/>
-                                        <span class="card__username">Juanita Pérez</span>
-                                    </a>
-                                </div>
-                                <div class="card__data">
-                                    <div class="card__data-content">
-                                        <h5 class="card__data-title">Titulo de la tarea</h5>
-                                        <p class="card__data-description">
-                                                When you enter into any new area of science, you almost always find yourself with a baffling new language.
-                                        </p>
-                                    </div>
-                                    <div class="card__dropdown-menu">
-                                        <div class="card__dropdown-button">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                            <div class="card__dropdown-content">
-                                                <div class="card__dropdown-item">
-                                                        <button class="card__dropdown-item-button">
-                                                                <i class="fas fa-eye card__dropdown-icon"></i> 
-                                                                <span class="card__dropdown-text">Ver tarea</span>
-                                                        </button>
-                                                </div>
-                                                <div class="card__dropdown-item">
-                                                        <button class="card__dropdown-item-button card__dropdown-item-button--delete">
-                                                                <i class="fas fa-trash card__dropdown-icon"></i>
-                                                                <span class="card__dropdown-text">Borrar</span>
-                                                        </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                    <div class="card">
-                            <div class="card__state card__state--active">
-                                <h5 class="card__state-text">Activa</h5>
-                                <a href="/#" role="button" class="button card__button">
-                                    <span class="button__text">Agregar tiempo</span>
-                                </a>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="card__content">
-                                <div class="card__info">
-                                    <a href="/#" class="card__user">
-                                        <img src="./src/img/profile1.jpg" alt="" class="card__profile-image"/>
-                                        <span class="card__username">Juanita Pérez</span>
-                                    </a>
-                                    <a href="/#" class="card__date">
-                                        <i class="far fa-clock card__timeleft-icon"></i>
-                                        <span class="card__timeleft">Tiempo restante: 12hrs</span>
-                                    </a>
-                                </div>
-                                <div class="card__data">
-                                    <div class="card__data-content">
-                                        <h5 class="card__data-title">Titulo de la tarea</h5>
-                                        <p class="card__data-description">
-                                                When you enter into any new area of science, you almost always find yourself with a baffling new language.
-                                        </p>
-                                    </div>
-                                    <div class="card__dropdown-menu">
-                                        <div class="card__dropdown-button">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                            <div class="card__dropdown-content">
-                                                <div class="card__dropdown-item">
-                                                        <button class="card__dropdown-item-button">
-                                                                <i class="fas fa-eye card__dropdown-icon"></i> 
-                                                                <span class="card__dropdown-text">Ver tarea</span>
-                                                        </button>
-                                                </div>
-                                                <div class="card__dropdown-item card__dropdown-item--disabled">
-                                                        <button disabled class="card__dropdown-item-button card__dropdown-item-button--delete card__dropdown-item-button--disabled">
-                                                                <i class="fas fa-trash card__dropdown-icon"></i>
-                                                                <span class="card__dropdown-text">Borrar</span>
-                                                        </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                                <div class="card__state card__state--finish">
-                                    <h5 class="card__state-text">Finalizada</h5>
-                                </div>
-                                <div class="divider"></div>
-                                <div class="card__content">
-                                    <div class="card__info">
-                                        <a href="/#" class="card__user">
-                                            <img src="./src/img/profile1.jpg" alt="" class="card__profile-image"/>
-                                            <span class="card__username">Juanita Pérez</span>
-                                        </a>
-                                    </div>
-                                    <div class="card__data">
-                                        <div class="card__data-content">
-                                            <h5 class="card__data-title">Titulo de la tarea</h5>
-                                            <p class="card__data-description">
-                                                    When you enter into any new area of science, you almost always find yourself with a baffling new language.
-                                            </p>
-                                        </div>
-                                        <div class="card__dropdown-menu">
-                                            <div class="card__dropdown-button">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                                <div class="card__dropdown-content">
-                                                    <div class="card__dropdown-item">
-                                                            <button class="card__dropdown-item-button">
-                                                                    <i class="fas fa-eye card__dropdown-icon"></i> 
-                                                                    <span class="card__dropdown-text">Ver tarea</span>
-                                                            </button>
-                                                    </div>
-                                                    <div class="card__dropdown-item">
-                                                            <button class="card__dropdown-item-button card__dropdown-item-button--delete">
-                                                                    <i class="fas fa-trash card__dropdown-icon"></i>
-                                                                    <span class="card__dropdown-text">Borrar</span>
-                                                            </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
+                  )}
                 </div>
             </div>
         </div>
-        <div class="float-button">
-            <div class="float-button__content">
-                <button class="button button--add">
-                    <i class="fas fa-plus"></i>
+        <div className="float-button">
+            <div className="float-button__content">
+                <button className="button button--add">
+                    <i className="fas fa-plus"></i>
                 </button>
             </div>
         </div>

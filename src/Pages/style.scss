@@ -167,6 +167,7 @@ body {
     }
     &__timeleft-icon {
         font-size: 16px;
+        margin-right: 5px;
     }
     &__data {
         border-left: 2px solid #2DC09D;
@@ -234,6 +235,7 @@ body {
         text-decoration: none;
         &:hover, &:active, &:focus {
             cursor: pointer;
+            outline: none;
             border: none;
             background: #6875ac33;
         }
@@ -272,6 +274,8 @@ body {
     align-items: center;
     padding: 6px 8px;
     border-radius: 5px;
+    cursor: pointer;
+    outline: none;
     &__text {
         color: #fff;
         font-size: 14px;
@@ -280,6 +284,7 @@ body {
     &:hover{
         background: #5f72c5;
         transition: .3s all ease-out; 
+        outline: none;
     }
     &--add {
         font-size: 25px;
