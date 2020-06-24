@@ -48,6 +48,18 @@ class Index extends React.Component {
   }
 
   /**
+   * handleModalShow - cambia el estado del modalShow
+   *
+   * @memberof Index
+   */
+  handleModalShow() {
+    const { modalShow } = this.state;
+    this.setState({
+      modalShow:!modalShow
+    })
+  }
+
+  /**
    * addTask - agrega una nueva tarea
    *
    * @param {integer} id
@@ -65,12 +77,17 @@ class Index extends React.Component {
    * @param {integer} id
    * @memberof Index
    */
-  showTask(id) {
-    //mostrar tarea
+  showTask(card) {
+    this.setState({
+      cardSelected:card,
+      modalShow:true
+    })
   }
 
+
+
   render () {
-    const { data, modalAdd } = this.state;
+    const { data, modalAdd, cardSelected,modalShow } = this.state;
     return (
       <div>
         <div className="container">
@@ -129,7 +146,7 @@ class Index extends React.Component {
                                           <i className="fas fa-ellipsis-v"></i>
                                           <div className="card__dropdown-content">
                                               <div className="card__dropdown-item">
-                                                  <button onClick={()=>{this.showTask(card.id); }} className="card__dropdown-item-button">
+                                                  <button onClick={()=>{this.showTask(card); }} className="card__dropdown-item-button">
                                                       <i className="fas fa-eye card__dropdown-icon"></i> 
                                                       <span className="card__dropdown-text">Ver tarea</span>
                                                   </button>
@@ -186,6 +203,25 @@ class Index extends React.Component {
                       </div>
                   </div>
                 </form>
+            </div>
+        </div>
+        <div class={modalShow ? 'modal-add-task modal-add-task--show' : 'modal-add-task'}>
+            <div class="form">
+                <div class="form-group">
+                      <div class="form-group__label">{cardSelected? cardSelected.card.title : ''}</div>
+                  </div>
+                  <div class="form-group">
+                      <div class="form-group__label form-group__label--description">
+                        <p> {cardSelected ? cardSelected.card.description : ''}</p>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="form-group__buttons">
+                          <button onClick={()=>{this.handleModalShow(); }} class="button form-group__button form-group__button--cancel">
+                              <span class="button__text">Cerrar</span>
+                          </button>
+                      </div>
+                  </div>
             </div>
         </div>
       </div>
