@@ -175,50 +175,50 @@ class Index extends React.Component {
               </div>
           </div>
         </div>
-        <div class={modalAdd ? 'modal-add-task modal-add-task--show' : 'modal-add-task'}>
-            <div class="form">
+        <div className={modalAdd ? 'modal-add-task modal-add-task--show' : 'modal-add-task'}>
+            <div className="form">
                 <form onSubmit={(event)=>{ this.addTask(event); }}>
-                  <div class="form-group">
-                      <div class="form-group__label">Título</div>
-                      <input name="title" type="text" class="form-group__input"/>
-                      <div class="form-group__help">
-                          <span class="form-group__helptext"></span>
+                  <div className="form-group">
+                      <div className="form-group__label">Título</div>
+                      <input name="title" type="text" className="form-group__input"/>
+                      <div className="form-group__help">
+                          <span className="form-group__helptext"></span>
                       </div>
                   </div>
-                  <div class="form-group">
-                      <div class="form-group__label">Descripción</div>
-                      <textarea name="description" rows="2" type="text" class="form-group__input form-group__input--textarea"></textarea>
-                      <div class="form-group__help">
-                          <span class="form-group__helptext"></span>
+                  <div className="form-group">
+                      <div className="form-group__label">Descripción</div>
+                      <textarea name="description" rows="2" type="text" className="form-group__input form-group__input--textarea"></textarea>
+                      <div className="form-group__help">
+                          <span className="form-group__helptext"></span>
                       </div>
                   </div>
-                  <div class="form-group">
-                      <div class="form-group__buttons">
-                          <button onClick={()=>{this.handleModalAdd(); }} class="button form-group__button form-group__button--cancel">
-                              <span class="button__text">Cancelar</span>
+                  <div className="form-group">
+                      <div className="form-group__buttons">
+                          <button onClick={()=>{this.handleModalAdd(); }} className="button form-group__button form-group__button--cancel">
+                              <span className="button__text">Cancelar</span>
                           </button>
-                          <button type="submit" class="button form-group__button">
-                              <span class="button__text">Agregar</span>
+                          <button type="submit" className="button form-group__button">
+                              <span className="button__text">Agregar</span>
                           </button>
                       </div>
                   </div>
                 </form>
             </div>
         </div>
-        <div class={modalShow ? 'modal-add-task modal-add-task--show' : 'modal-add-task'}>
-            <div class="form">
-                <div class="form-group">
-                      <div class="form-group__label">{cardSelected? cardSelected.card.title : ''}</div>
+        <div className={modalShow ? 'modal-add-task modal-add-task--show' : 'modal-add-task'}>
+            <div className="form">
+                <div className="form-group">
+                      <div className="form-group__label">{cardSelected? cardSelected.card.title : ''}</div>
                   </div>
-                  <div class="form-group">
-                      <div class="form-group__label form-group__label--description">
+                  <div className="form-group">
+                      <div className="form-group__label form-group__label--description">
                         <p> {cardSelected ? cardSelected.card.description : ''}</p>
                       </div>
                   </div>
-                  <div class="form-group">
-                      <div class="form-group__buttons">
-                          <button onClick={()=>{this.handleModalShow(); }} class="button form-group__button form-group__button--cancel">
-                              <span class="button__text">Cerrar</span>
+                  <div className="form-group">
+                      <div className="form-group__buttons">
+                          <button onClick={()=>{this.handleModalShow(); }} className="button form-group__button form-group__button--cancel">
+                              <span className="button__text">Cerrar</span>
                           </button>
                       </div>
                   </div>
