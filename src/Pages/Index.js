@@ -66,7 +66,26 @@ class Index extends React.Component {
    * @memberof Index
    */
   addTask(event) {
+    event.preventDefault();
+    const title = event.target.title.value;
+    const description = event.target.description.value;
+    const { data } = this.state;
+    const id = Math.max(...data.map(card => card.id));
+    data.push(
+      {
+        id:id+1,
+        name: 'Juanita Pérez',
+        timeLeft: '12hrs',
+        image: 'Profile1.jpg',
+        active: true,
+        card: {
+            title : title,
+            description : description,
+        }
+      }
+    );
     this.setState({
+      data,
       modalAdd: false
     })
   }
@@ -88,6 +107,7 @@ class Index extends React.Component {
 
   render () {
     const { data, modalAdd, cardSelected,modalShow } = this.state;
+    data.sort((card1, card2) => (card1.active === card2.active)? 0 : card1.active? -1 : 1);
     return (
       <div>
         <div className="container">
