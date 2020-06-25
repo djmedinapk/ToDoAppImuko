@@ -88,6 +88,7 @@ class Index extends React.Component {
       data,
       modalAdd: false
     })
+    this.formTask.reset();
   }
   
   /**
@@ -197,7 +198,7 @@ class Index extends React.Component {
         </div>
         <div className={modalAdd ? 'modal-add-task modal-add-task--show' : 'modal-add-task'}>
             <div className="form">
-                <form onSubmit={(event)=>{ this.addTask(event); }}>
+                <form ref={(el) => this.formTask = el} onSubmit={(event)=>{ this.addTask(event); }}>
                   <div className="form-group">
                       <div className="form-group__label">Título</div>
                       <input name="title" type="text" className="form-group__input"/>
